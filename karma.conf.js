@@ -18,26 +18,26 @@
 module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: "",
 
     // frameworks to use
     // available frameworks: https://www.npmjs.com/search?q=keywords:karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ["jasmine"],
 
     // list of files / patterns to load in the browser
     files: [
       {
-        pattern: 'dist/manager.dev.js',
+        pattern: "dist/manager.dev.js",
         included: false,
         served: true,
-        type: 'module',
+        type: "module",
       },
-      {pattern: 'test/**/*.js', type: 'module', included: true},
-      {pattern: 'test/**/*.json', included: false, served: true},
+      { pattern: "test/**/*.js", type: "module", included: true },
+      { pattern: "test/**/*.json", included: false, served: true },
     ],
 
     // list of files / patterns to exclude
-    exclude: ['test/server/**'],
+    exclude: ["test/server/**"],
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://www.npmjs.com/search?q=keywords:karma-preprocessor
@@ -46,7 +46,7 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://www.npmjs.com/search?q=keywords:karma-reporter
-    reporters: ['dots', 'progress', 'kjhtml'],
+    reporters: ["dots", "progress", "kjhtml"],
 
     // web server port
     port: 9876,
@@ -63,7 +63,7 @@ module.exports = function (config) {
 
     // start these browsers
     // available browser launchers: https://www.npmjs.com/search?q=keywords:karma-launcher
-    browsers: ['ChromeHeadless'],
+    browsers: ["ChromeHeadless"],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

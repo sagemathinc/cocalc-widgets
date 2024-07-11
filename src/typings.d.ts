@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-declare module '*.txt' {
+declare module "*.txt" {
   const content: string;
   export default content;
 }

@@ -24,6 +24,7 @@ export class Loader {
   private loadQueue = Promise.resolve();
 
   async load(moduleName: string, moduleVersion?: string): Promise<unknown> {
+    console.log("load", { moduleName, moduleVersion });
     let definition = this.definitions.get(moduleName);
     if (definition) {
       return this.loadModule(moduleName, definition);
@@ -35,14 +36,14 @@ export class Loader {
       const url = this.resolveModule(moduleName, moduleVersion);
       const script =
         (await (await fetch(url.toString())).text()) + `\n//@ sourceURL=${url}`;
-      const fn = new Function('define', script);
+      const fn = new Function("define", script);
       let module: Module | undefined;
       const define = (
         first: string | string[],
         second: string[] | (() => unknown) | unknown,
         third?: (() => unknown) | unknown
       ) => {
-        if (typeof first === 'string') {
+        if (typeof first === "string") {
           module = this.define(first, second as string[], third);
         } else {
           module = this.define(
@@ -52,7 +53,7 @@ export class Loader {
           );
         }
       };
-      fn.call({define}, define);
+      fn.call({ define }, define);
       /* eslint @typescript-eslint/no-non-null-assertion: "off" */
       return module!;
     });
@@ -93,7 +94,7 @@ export class Loader {
             const definition = this.definitions.get(dependency);
             // Support requirejs magic modules:
             // https://github.com/requirejs/requirejs/wiki/Differences-between-the-simplified-CommonJS-wrapper-and-standard-AMD-define#magic
-            if (dependency === 'module') {
+            if (dependency === "module") {
               return {
                 id: module.id,
                 url: this.resolveModule(module.id),
@@ -141,22 +142,25 @@ export class Loader {
 }
 
 function getHostedModuleUrl(moduleName: string, moduleVersion?: string): URL {
-  const parts = moduleName.split('/');
-  let filename = 'dist/index.js';
+  const parts = moduleName.split("/");
+  let filename = "dist/index.js";
   let packageName = parts.shift();
-  if (moduleName.startsWith('@') && parts.length) {
+  if (moduleName.startsWith("@") && parts.length) {
     packageName = `${packageName}/${parts.shift()}`;
   }
   if (parts.length) {
-    filename = parts.join('/');
-    if (!filename.includes('.')) {
-      filename = filename + '.js';
+    filename = parts.join("/");
+    if (!filename.includes(".")) {
+      filename = filename + ".js";
     }
   }
-  let version = moduleVersion || '*';
-  if (version.startsWith('^')) {
+  let version = moduleVersion || "*";
+  if (version.startsWith("^")) {
     version = version.substr(1);
   }
+  console.log(
+    `https://cdn.jsdelivr.net/npm/${packageName}@${version}/${filename}`
+  );
   return new URL(
     `https://cdn.jsdelivr.net/npm/${packageName}@${version}/${filename}`
   );

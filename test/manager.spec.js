@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {createWidgetManager} from '../dist/manager.dev.js';
+import { createWidgetManager } from "../dist/manager.dev.js";
 
 /**
  * Helper which adapts the widget state notebook format to the public API
@@ -38,49 +38,49 @@ class FakeState {
   }
 
   async renderOutput(output, element) {
-    if (output.data['text/html']) {
-      element.innerHTML = output.data['text/html'];
+    if (output.data["text/html"]) {
+      element.innerHTML = output.data["text/html"];
     }
   }
 }
 
-describe('widget manager', () => {
+describe("widget manager", () => {
   let container;
   beforeEach(() => {
-    container = document.createElement('div');
+    container = document.createElement("div");
     document.body.appendChild(container);
   });
   afterEach(() => {
     container.remove();
   });
 
-  it('can render a threejs scene', async () => {
-    const modelId = 'pythree_example_model_007';
+  it("can render a threejs scene", async () => {
+    const modelId = "pythree_example_model_007";
     const state = await (
-      await fetch('/base/test/jupyter_threejs_state.json')
+      await fetch("/base/test/jupyter_threejs_state.json")
     ).json();
 
     const provider = new FakeState(state);
     const manager = createWidgetManager(provider);
 
     await manager.render(modelId, container);
-    const threeJs = container.querySelector('.jupyter-threejs canvas');
+    const threeJs = container.querySelector(".jupyter-threejs canvas");
     expect(threeJs).toBeInstanceOf(HTMLCanvasElement);
   });
 
-  it('can render ipyleaflet', async () => {
-    const modelId = '34baf5762f2344e19200892a8efafc27';
-    const state = await (await fetch('/base/test/leaflet_state.json')).json();
+  it("can render ipyleaflet", async () => {
+    const modelId = "34baf5762f2344e19200892a8efafc27";
+    const state = await (await fetch("/base/test/leaflet_state.json")).json();
 
     const provider = new FakeState(state);
     const manager = createWidgetManager(provider);
 
     await manager.render(modelId, container);
-    const leaflet = container.querySelector('.leaflet-widgets');
+    const leaflet = container.querySelector(".leaflet-widgets");
     expect(leaflet).toBeInstanceOf(HTMLDivElement);
   });
 
-  it('throws for invalid specs', async () => {
+  it("throws for invalid specs", async () => {
     const provider = new FakeState({
       123: {
         state: {},
@@ -89,20 +89,20 @@ describe('widget manager', () => {
     const oldHandler = window.onerror;
     window.onerror = () => {};
     const manager = createWidgetManager(provider);
-    await expectAsync(manager.render('123', container)).toBeRejected();
+    await expectAsync(manager.render("123", container)).toBeRejected();
     await new Promise((resolve) => setTimeout(resolve, 100));
     window.onerror = oldHandler;
   });
 
-  it('has proper lifecycle events', async () => {
+  it("has proper lifecycle events", async () => {
     const provider = new FakeState({
       123: {
         state: {
-          _view_module: 'custom-widget',
-          _view_name: 'View',
+          _view_module: "custom-widget",
+          _view_name: "View",
         },
-        model_module: 'custom-widget',
-        model_name: 'Model',
+        model_module: "custom-widget",
+        model_name: "Model",
       },
     });
     const manager = createWidgetManager(provider);
@@ -110,8 +110,8 @@ describe('widget manager', () => {
     let viewClass;
 
     manager.loader.define(
-      'custom-widget',
-      ['@jupyter-widgets/base'],
+      "custom-widget",
+      ["@jupyter-widgets/base"],
       (base) => {
         class Model extends base.DOMWidgetModel {
           constructor(...args) {
@@ -139,8 +139,8 @@ describe('widget manager', () => {
 
     container.remove();
 
-    await manager.render('123', container);
-    const model = await manager.get_model('123');
+    await manager.render("123", container);
+    const model = await manager.get_model("123");
     expect(model).toBeInstanceOf(modelClass);
     const view = await Object.values(model.views)[0];
     expect(view).toBeInstanceOf(viewClass);
@@ -150,28 +150,28 @@ describe('widget manager', () => {
     expect(view.hasBeenDisplayed).toBe(true);
   });
 
-  it('supports output widgets', async () => {
-    const modelId = '99837b7c37654c8c8f35cad63aaad130';
-    const state = await (await fetch('/base/test/output_state.json')).json();
+  it("supports output widgets", async () => {
+    const modelId = "99837b7c37654c8c8f35cad63aaad130";
+    const state = await (await fetch("/base/test/output_state.json")).json();
 
     const provider = new FakeState(state);
     const manager = createWidgetManager(provider);
 
     await manager.render(modelId, container);
-    const marquee = container.querySelector('marquee');
+    const marquee = container.querySelector("marquee");
     expect(marquee).toBeInstanceOf(HTMLElement);
   });
 
-  it('omits non-transferrables', async () => {
+  it("omits non-transferrables", async () => {
     const provider = new FakeState(
       {
         123: {
           state: {
-            _view_module: 'custom-widget',
-            _view_name: 'View',
+            _view_module: "custom-widget",
+            _view_name: "View",
           },
-          model_module: 'custom-widget',
-          model_name: 'Model',
+          model_module: "custom-widget",
+          model_name: "Model",
         },
       },
       {
@@ -186,8 +186,8 @@ describe('widget manager', () => {
     let viewClass;
 
     manager.loader.define(
-      'custom-widget',
-      ['@jupyter-widgets/base'],
+      "custom-widget",
+      ["@jupyter-widgets/base"],
       (base) => {
         class Model extends base.DOMWidgetModel {
           constructor(...args) {
@@ -212,8 +212,8 @@ describe('widget manager', () => {
         };
       }
     );
-    await manager.render('123', container);
-    const model = await manager.get_model('123');
+    await manager.render("123", container);
+    const model = await manager.get_model("123");
     expect(() => {
       model.send({
         nonTransferrable: () => {},
@@ -221,24 +221,24 @@ describe('widget manager', () => {
     }).not.toThrow();
   });
 
-  it('normalizes buffers', async () => {
+  it("normalizes buffers", async () => {
     const provider = new FakeState({
       123: {
         state: {
-          _view_module: 'custom-widget',
-          _view_name: 'View',
+          _view_module: "custom-widget",
+          _view_name: "View",
           my_data: new ArrayBuffer(100),
         },
-        model_module: 'custom-widget',
-        model_name: 'Model',
+        model_module: "custom-widget",
+        model_name: "Model",
       },
     });
     const manager = createWidgetManager(provider);
 
     let constructedState;
     manager.loader.define(
-      'custom-widget',
-      ['@jupyter-widgets/base'],
+      "custom-widget",
+      ["@jupyter-widgets/base"],
       (base) => {
         class Model extends base.DOMWidgetModel {
           constructor(state, options) {
@@ -258,22 +258,22 @@ describe('widget manager', () => {
       }
     );
 
-    await manager.render('123', container);
+    await manager.render("123", container);
     expect(constructedState.my_data).toBeInstanceOf(DataView);
     await new Promise((resolve) => setTimeout(resolve, 0));
 
     container.remove();
   });
 
-  it('supports processPhosphorMessage', async () => {
+  it("supports processPhosphorMessage", async () => {
     const provider = new FakeState({
       123: {
         state: {
-          _view_module: 'custom-widget',
-          _view_name: 'View',
+          _view_module: "custom-widget",
+          _view_name: "View",
         },
-        model_module: 'custom-widget',
-        model_name: 'Model',
+        model_module: "custom-widget",
+        model_name: "Model",
       },
     });
     const manager = createWidgetManager(provider);
@@ -282,8 +282,8 @@ describe('widget manager', () => {
     let processPhosphorMessageCalled = false;
 
     manager.loader.define(
-      'custom-widget',
-      ['@jupyter-widgets/base'],
+      "custom-widget",
+      ["@jupyter-widgets/base"],
       (base) => {
         class Model extends base.DOMWidgetModel {
           constructor(...args) {
@@ -309,7 +309,7 @@ describe('widget manager', () => {
       }
     );
 
-    await manager.render('123', container);
+    await manager.render("123", container);
     expect(processPhosphorMessageCalled).toBeTrue();
   });
 });

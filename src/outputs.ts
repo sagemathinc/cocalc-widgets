@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {DOMWidgetModel, DOMWidgetView} from '@jupyter-widgets/base';
-import {WidgetModel} from '@jupyter-widgets/base';
-import {ViewOptions} from '@jupyter-widgets/base/node_modules/@types/backbone';
-import * as _ from 'underscore';
+import { DOMWidgetModel, DOMWidgetView } from "@jupyter-widgets/base";
+import { WidgetModel } from "@jupyter-widgets/base";
+import { ViewOptions } from "@jupyter-widgets/base/node_modules/@types/backbone";
+import * as _ from "underscore";
 
 interface OutputRenderer {
   renderOutput(modelId: string, container: Element): Promise<void>;
@@ -30,10 +30,10 @@ export class OutputModel extends DOMWidgetModel {
   defaults(): Backbone.ObjectHash {
     return _.extend(super.defaults(), {
       outputs: [],
-      _view_name: 'OutputView',
-      _model_name: 'OutputModel',
-      _view_module: '@jupyter-widgets/output',
-      _model_module: '@jupyter-widgets/output',
+      _view_name: "OutputView",
+      _model_name: "OutputModel",
+      _view_module: "@jupyter-widgets/output",
+      _model_module: "@jupyter-widgets/output",
     });
   }
 }
@@ -45,7 +45,7 @@ export class OutputView extends DOMWidgetView {
   constructor(options: ViewOptions<WidgetModel>) {
     super(options);
 
-    this.tagName = 'div';
+    this.tagName = "div";
   }
   /**
    * Called when view is rendered.
@@ -53,7 +53,7 @@ export class OutputView extends DOMWidgetView {
   /* eslint @typescript-eslint/no-explicit-any: "off" */
   render(): any {
     const result = super.render();
-    this.listenTo(this.model, 'change:outputs', this.updateOutputs);
+    this.listenTo(this.model, "change:outputs", this.updateOutputs);
     this.updateOutputs();
     return result;
   }
@@ -63,9 +63,9 @@ export class OutputView extends DOMWidgetView {
     const oldNodes = Array.from(this.el.childNodes);
     const outputs = this.model.attributes.outputs;
     for (const output of outputs) {
-      const div = document.createElement('div');
+      const div = document.createElement("div");
       // Hide the new div while loading to avoid jank.
-      div.style.display = 'none';
+      div.style.display = "none";
       this.el.appendChild(div);
       newElements.push(div);
       await (
@@ -78,7 +78,7 @@ export class OutputView extends DOMWidgetView {
     }
     for (const element of newElements) {
       // Show all of the new divs.
-      element.style.display = 'block';
+      element.style.display = "block";
     }
   }
 }

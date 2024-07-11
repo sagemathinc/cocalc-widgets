@@ -1,13 +1,14 @@
 {
-  "name": "colab-custom-widget-manager",
-  "version": "0.0.1",
-  "description": "Jupyter interactive widgets for Colaboratory",
+  "name": "@cocalc/widgets",
+  "version": "0.1",
+  "description": "Jupyter interactive widgets for CoCalc",
   "license": "Apache-2.0",
   "files": [
     "lib/**/*.d.ts",
     "dist/"
   ],
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "node build.js",
     "clean": "rimraf dist && rimraf lib",
     "compile:test": "tsc -p test/server",
@@ -52,5 +53,18 @@
     "tslint": "^5.8.0",
     "typescript": "^4.3.5"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "homepage": "https://github.com/sagemathinc/cocalc-widgets",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sagemathinc/cocalc-widgets"
+  },
+  "author": "SageMath, Inc.",
+  "contributors": [
+    "William Stein <wstein@sagemath.com>",
+    "Pete Blois <blois@google.com>"
+  ],
+  "bugs": {
+    "url": "https://github.com/sagemathinc/cocalc-widgets/issues"
+  }
 }

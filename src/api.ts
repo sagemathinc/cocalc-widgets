@@ -92,7 +92,7 @@ export declare interface ModelState {
   modelModule: string;
   modelModuleVersion: string;
 
-  state: {[key: string]: unknown};
+  state: { [key: string]: unknown };
   /**
    * If connected to a kernel then this is the comm channel to the kernel.
    * This will only be set if currently connected to a kernel.
@@ -101,7 +101,7 @@ export declare interface ModelState {
 }
 
 export declare interface IComm {
-  send(data: unknown, opts?: {buffers?: ArrayBuffer[]}): Promise<void>;
+  send(data: unknown, opts?: { buffers?: ArrayBuffer[] }): Promise<void>;
   close(): void;
 
   /**
