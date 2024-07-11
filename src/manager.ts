@@ -83,7 +83,6 @@ export class Manager extends ManagerBase implements IWidgetManager {
       )
     ) {
       Object.defineProperty(DOMWidgetView.prototype, "processPhosphorMessage", {
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         value: function () {},
         writable: true,
       });
