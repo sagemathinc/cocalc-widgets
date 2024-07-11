@@ -41,7 +41,7 @@ export class Loader {
       const define = (
         first: string | string[],
         second: string[] | (() => unknown) | unknown,
-        third?: (() => unknown) | unknown
+        third?: (() => unknown) | unknown,
       ) => {
         if (typeof first === "string") {
           module = this.define(first, second as string[], third);
@@ -49,7 +49,7 @@ export class Loader {
           module = this.define(
             moduleName,
             first as string[],
-            second as (() => unknown) | unknown
+            second as (() => unknown) | unknown,
           );
         }
       };
@@ -104,7 +104,7 @@ export class Loader {
               throw new Error(`Unknown dependency ${dependency}`);
             }
             return this.loadModule(dependency, definition);
-          })
+          }),
         );
         return module.factory.apply(window, requirements);
       })();
@@ -115,13 +115,13 @@ export class Loader {
   define(
     moduleId: string,
     dependencies: string[],
-    definition: () => unknown
+    definition: () => unknown,
   ): Module;
   define(moduleId: string, dependencies: string[], definition: unknown): Module;
   define(
     moduleId: string,
     dependencies: string[],
-    factory?: (() => unknown) | unknown
+    factory?: (() => unknown) | unknown,
   ): Module {
     if (!(factory instanceof Function)) {
       factory = () => factory;
@@ -159,10 +159,10 @@ function getHostedModuleUrl(moduleName: string, moduleVersion?: string): URL {
     version = version.substr(1);
   }
   console.log(
-    `https://cdn.jsdelivr.net/npm/${packageName}@${version}/${filename}`
+    `https://cdn.jsdelivr.net/npm/${packageName}@${version}/${filename}`,
   );
   return new URL(
-    `https://cdn.jsdelivr.net/npm/${packageName}@${version}/${filename}`
+    `https://cdn.jsdelivr.net/npm/${packageName}@${version}/${filename}`,
   );
 }
 

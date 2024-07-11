@@ -74,7 +74,7 @@ describe("swizzle", () => {
       },
       {
         staticProperty: "the derived static",
-      }
+      },
     );
     const instance = new Subclass("constructor param");
     it("passes constructor params", () => {

@@ -26,7 +26,7 @@ interface Constructable<T, A extends any[]> {
 // https://github.com/jashkenas/backbone/blob/153dc41616a1f2663e4a86b705fefd412ecb4a7a/backbone.js#L2060
 /* eslint @typescript-eslint/no-explicit-any: "off" */
 export function swizzle<T, A extends any[]>(
-  base: Constructable<T, A>
+  base: Constructable<T, A>,
 ): Constructable<T, A> {
   /* eslint @typescript-eslint/no-explicit-any: "off" */
   const Constructor = function (this: any, ...args: A): T {

@@ -30,7 +30,7 @@
 export declare interface WidgetManagerModule {
   createWidgetManager(
     state: WidgetEnvironment,
-    arguments?: unknown
+    arguments?: unknown,
   ): IWidgetManager;
 }
 
@@ -58,7 +58,7 @@ export declare interface WidgetEnvironment {
   openCommChannel(
     targetName: string,
     data?: unknown,
-    buffers?: ArrayBuffer[]
+    buffers?: ArrayBuffer[],
   ): Promise<IComm>;
 
   /** Renders a standard Jupyter output item into destination.  */
@@ -78,7 +78,7 @@ export declare interface IWidgetManager {
     id: string,
     comm: IComm,
     data?: unknown,
-    buffers?: ArrayBuffer[]
+    buffers?: ArrayBuffer[],
   ): void;
 }
 

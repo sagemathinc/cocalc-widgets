@@ -51,7 +51,7 @@ async function serveDev(response: ServerResponse) {
 async function serveTest(request: IncomingMessage, response: ServerResponse) {
   const testFolder = path.resolve(path.normalize("./test/"));
   const toServe = path.resolve(
-    path.normalize(path.join("./test/", request.url!))
+    path.normalize(path.join("./test/", request.url!)),
   );
   if (!toServe.startsWith(testFolder)) {
     throw new Error("not allowed");

@@ -134,7 +134,7 @@ describe("widget manager", () => {
           Model,
           View,
         };
-      }
+      },
     );
 
     container.remove();
@@ -179,7 +179,7 @@ describe("widget manager", () => {
           const channel = new MessageChannel();
           channel.port1.postMessage(data);
         },
-      }
+      },
     );
     const manager = createWidgetManager(provider);
     let modelClass;
@@ -210,7 +210,7 @@ describe("widget manager", () => {
           Model,
           View,
         };
-      }
+      },
     );
     await manager.render("123", container);
     const model = await manager.get_model("123");
@@ -255,7 +255,7 @@ describe("widget manager", () => {
           Model,
           View,
         };
-      }
+      },
     );
 
     await manager.render("123", container);
@@ -306,7 +306,7 @@ describe("widget manager", () => {
           Model,
           View,
         };
-      }
+      },
     );
 
     await manager.render("123", container);

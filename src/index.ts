@@ -23,7 +23,7 @@ import { Manager } from "./manager";
  * Implementation of the WidgetManagerModule interface.
  */
 export function createWidgetManager(
-  environment: WidgetEnvironment
+  environment: WidgetEnvironment,
 ): IWidgetManager {
   const loader = new Loader();
   return new Manager(environment, loader);
