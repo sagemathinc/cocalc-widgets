@@ -3,25 +3,23 @@
   "version": "0.1.0",
   "description": "Jupyter interactive widgets for CoCalc",
   "license": "Apache-2.0",
-  "files": [
-    "lib/**/*.d.ts",
-    "dist/"
-  ],
-  "main": "./dist/manager.min.js",
+  "files": ["lib/**/*.d.ts", "dist/"],
+  "main": "./dist/manager.dev.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "build": "node build.js",
+    "build": "node build.js && pnpm tsc",
     "clean": "rimraf dist && rimraf lib",
     "compile:test": "tsc -p test/server",
     "compile": "tsc",
     "fix": "npx prettier --write .",
-    "prepare": "npm run clean && npm run build",
-    "server": "npm run compile:test && node test/server/lib/server.js",
+    "prepare": "pnpm clean && pnpm build",
+    "server": "pnpm compile:test && node test/server/lib/server.js",
     "test:jest": "node node_modules/.bin/jest",
     "test:karma:dev": "./node_modules/karma/bin/karma start karma.conf.js",
-    "test:karma": "npm run build && ./node_modules/karma/bin/karma start karma.conf.js --single-run",
+    "test:karma": "pnpm build && ./node_modules/karma/bin/karma start karma.conf.js --single-run",
     "test:prettier": "npx prettier --check .",
-    "test": "npm run test:jest && npm run test:karma && npm run test:prettier"
+    "test": "pnpm test:jest && pnpm test:karma && pnpm test:prettier"
   },
   "devDependencies": {
     "@jupyter-widgets/base": "6.0.0-rc.2",

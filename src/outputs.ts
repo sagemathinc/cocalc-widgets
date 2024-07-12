@@ -42,7 +42,10 @@ export class OutputModel extends DOMWidgetModel {
  * Widget View for an Output widget.
  */
 export class OutputView extends DOMWidgetView {
+  // @ts-ignore -- this and ignore below -- seems like errors
+  // from two different versions of typings
   constructor(options: ViewOptions<WidgetModel>) {
+    // @ts-ignore
     super(options);
 
     this.tagName = "div";

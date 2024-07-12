@@ -15,12 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import css from "../lib/index.css.txt";
 import { Loader } from "./amd";
-import type { IWidgetManager, WidgetEnvironment } from "./api";
+import type {
+  IWidgetManager,
+  WidgetEnvironment,
+  IComm,
+  Message,
+  ModelState,
+} from "./api";
 import { Manager } from "./manager";
 
-export type { WidgetEnvironment };
+export type { IComm, WidgetEnvironment, Message, ModelState };
 
 /**
  * Implementation of the WidgetManagerModule interface.
@@ -28,26 +33,6 @@ export type { WidgetEnvironment };
 export function createWidgetManager(
   environment: WidgetEnvironment,
 ): IWidgetManager {
-  initCss();
   const loader = new Loader();
   return new Manager(environment, loader);
-}
-
-let initialized = false;
-function initCss() {
-  if (initialized) {
-    return;
-  }
-  initialized = true;
-  // Add the Jupyter Widgets CSS to the page.
-  const style = document.createElement("style");
-  style.textContent = css;
-  document.head.appendChild(style);
-
-  // Some widgets rely on icons from font-awesome, so add that as well.
-  const fontAwesome = document.createElement("link");
-  fontAwesome.rel = "stylesheet";
-  fontAwesome.href =
-    "https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css";
-  document.head.appendChild(fontAwesome);
 }

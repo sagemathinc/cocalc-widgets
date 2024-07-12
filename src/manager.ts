@@ -36,6 +36,8 @@ import { JSONObject } from "@lumino/coreutils";
 import { Message } from "@lumino/messaging";
 import { Widget } from "@lumino/widgets";
 
+export type { WidgetEnvironment };
+
 export class Manager extends ManagerBase implements IWidgetManager {
   private readonly models = new Map<string, Promise<WidgetModel>>();
   private readonly loader: Loader;
