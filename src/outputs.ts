@@ -50,7 +50,6 @@ export class OutputView extends DOMWidgetView {
   /**
    * Called when view is rendered.
    */
-  /* eslint @typescript-eslint/no-explicit-any: "off" */
   render(): any {
     const result = super.render();
     this.listenTo(this.model, "change:outputs", this.updateOutputs);

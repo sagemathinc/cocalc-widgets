@@ -54,11 +54,9 @@ export class Loader {
         }
       };
       fn.call({ define }, define);
-      /* eslint @typescript-eslint/no-non-null-assertion: "off" */
       return module!;
     });
     // Serialize script loading to keep only one module loading at a time.
-    /* eslint @typescript-eslint/no-empty-function: "off" */
     this.loadQueue = loaded
       .then(() => {})
       .catch(() => {
@@ -78,7 +76,6 @@ export class Loader {
   }
 
   private register() {
-    /* eslint @typescript-eslint/no-explicit-any: "off" */
     (window as any).define = this.define.bind(this);
   }
 
