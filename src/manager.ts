@@ -25,9 +25,9 @@ import {
   DOMWidgetView,
   remove_buffers,
   put_buffers,
-  BufferJSON,
   Dict,
 } from "@jupyter-widgets/base";
+import type { BufferJSON } from "./utils";
 import * as base from "@jupyter-widgets/base";
 import { ManagerBase } from "@jupyter-widgets/base-manager";
 import * as controls from "@jupyter-widgets/controls";
@@ -199,18 +199,23 @@ export class Manager extends ManagerBase implements IWidgetManager {
       return model;
     })();
     this.models.set(modelId, modelPromise);
+    if (modelPromise == null) {
+      throw Error("bug");
+    }
     return modelPromise;
   }
 
   async render(modelId: string, container: HTMLElement): Promise<void> {
     const model = (await this.get_model(modelId)) as WidgetModel;
     const view = await this.create_view(model);
+    // @ts-ignore
     dispatchLuminoMessage(view.luminoWidget, {
       type: "before-attach",
       isConflatable: false,
       conflate: () => false,
     });
 
+    // @ts-ignore
     const lifecycleAdapter = new LuminoLifecycleAdapter(view.luminoWidget);
     lifecycleAdapter.appendChild(view.el);
     container.appendChild(lifecycleAdapter);

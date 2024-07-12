@@ -11,6 +11,10 @@ overrides:
 importers:
 
   .:
+    dependencies:
+      '@types/backbone':
+        specifier: ^1.4.19
+        version: 1.4.19
     devDependencies:
       '@jupyter-widgets/base':
         specifier: 6.0.0-rc.2
@@ -496,6 +500,9 @@ packages:
 
   '@types/backbone@1.4.14':
     resolution: {integrity: sha512-85ldQ99fiYTJFBlZuAJRaCdvTZKZ2p1fSs3fVf+6Ub6k1X0g0hNJ0qJ/2FOByyyAQYLtbEz3shX5taKQfBKBDw==}
+
+  '@types/backbone@1.4.19':
+    resolution: {integrity: sha512-byyn236JymGByOajKA7mi1k+/jKn162TIvArOB4SHgOGbVlFj8CSfJH4jekP0qo0vJwW5khrrsiiO1Jsos6ZvA==}
 
   '@types/cookie@0.4.1':
     resolution: {integrity: sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==}
@@ -4210,6 +4217,11 @@ snapshots:
       '@babel/types': 7.24.8
 
   '@types/backbone@1.4.14':
+    dependencies:
+      '@types/jquery': 3.5.30
+      '@types/underscore': 1.11.15
+
+  '@types/backbone@1.4.19':
     dependencies:
       '@types/jquery': 3.5.30
       '@types/underscore': 1.11.15

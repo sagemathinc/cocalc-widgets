@@ -16,7 +16,7 @@
  */
 import { DOMWidgetModel, DOMWidgetView } from "@jupyter-widgets/base";
 import { WidgetModel } from "@jupyter-widgets/base";
-import { ViewOptions } from "@jupyter-widgets/base/node_modules/@types/backbone";
+import { ViewOptions } from "backbone";
 import * as _ from "underscore";
 
 interface OutputRenderer {

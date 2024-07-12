@@ -9,8 +9,10 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "outDir": "lib",
-    "lib": ["ES2018", "dom"]
+    "lib": ["ES2018", "dom"],
+    "declaration": true
   },
   "include": ["./src/**/*.ts"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts"],
+  "outDir": "dist"
 }
