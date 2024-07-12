@@ -3,25 +3,15 @@
   "version": "0.1.0",
   "description": "Jupyter interactive widgets for CoCalc",
   "license": "Apache-2.0",
-  "files": [
-    "lib/**/*.d.ts",
-    "dist/"
-  ],
+  "files": ["dist/"],
   "main": "./dist/manager.dev.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "node build.js && pnpm tsc",
-    "clean": "rimraf dist && rimraf lib",
-    "compile:test": "tsc -p test/server",
+    "clean": "rimraf dist && rimraf node_modules",
     "compile": "tsc",
-    "fix": "npx prettier --write .",
-    "server": "pnpm compile:test && node test/server/lib/server.js",
-    "test:jest": "node node_modules/.bin/jest",
-    "test:karma:dev": "./node_modules/karma/bin/karma start karma.conf.js",
-    "test:karma": "pnpm build && ./node_modules/karma/bin/karma start karma.conf.js --single-run",
-    "test:prettier": "npx prettier --check .",
-    "test": "pnpm test:jest && pnpm test:karma && pnpm test:prettier"
+    "fix": "npx prettier --write ."
   },
   "devDependencies": {
     "@jupyter-widgets/base": "6.0.0-rc.2",
@@ -31,26 +21,13 @@
     "@lumino/coreutils": "^2.2.0",
     "@lumino/messaging": "^2.0.2",
     "@lumino/widgets": "^2.4.0",
-    "@types/jest": "^26.0.24",
-    "@types/mocha": "^9.0.0",
+    "@types/backbone": "^1.4.19",
     "@types/node": "^20.14.10",
     "@types/underscore": "^1.11.15",
     "backbone": "1.6.0",
     "esbuild": "^0.11.23",
-    "esbuild-jest": "^0.5.0",
-    "jasmine-core": "^3.8.0",
-    "jest": "^27.0.6",
-    "jest-puppeteer": "^5.0.4",
-    "karma": "^6.3.4",
-    "karma-chrome-launcher": "^3.1.0",
-    "karma-esbuild": "^2.2.0",
-    "karma-jasmine": "^4.0.1",
-    "karma-jasmine-html-reporter": "^1.7.0",
-    "karma-typescript": "^5.5.4",
-    "mocha": "^9.0.3",
     "prettier": "^3.3.2",
     "rimraf": "^6.0.1",
-    "ts-jest": "^27.0.4",
     "typescript": "^5.5.3",
     "underscore": "^1.13.6"
   },
@@ -60,20 +37,8 @@
     "url": "https://github.com/sagemathinc/cocalc-widgets"
   },
   "author": "SageMath, Inc.",
-  "contributors": [
-    "William Stein <wstein@sagemath.com>",
-    "Pete Blois <blois@google.com>"
-  ],
+  "contributors": ["William Stein <wstein@sagemath.com>"],
   "bugs": {
     "url": "https://github.com/sagemathinc/cocalc-widgets/issues"
-  },
-  "pnpm": {
-    "overrides": {
-      "axios@>=0.8.1 <0.28.0": ">=0.28.0",
-      "braces@<3.0.3": ">=3.0.3"
-    }
-  },
-  "dependencies": {
-    "@types/backbone": "^1.4.19"
   }
 }
