@@ -25,7 +25,6 @@ class BaseES6 {
 
   constructor(readonly constructorParam) {
     this.valueAtConstruction = this.getValue();
-    /* eslint @typescript-eslint/no-explicit-any: "off" */
     this.staticValueAtConstruction = (this.constructor as any).staticProperty;
   }
 

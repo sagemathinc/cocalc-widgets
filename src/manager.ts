@@ -83,7 +83,6 @@ export class Manager extends ManagerBase implements IWidgetManager {
       )
     ) {
       Object.defineProperty(DOMWidgetView.prototype, "processPhosphorMessage", {
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         value: function () {},
         writable: true,
       });
@@ -159,7 +158,6 @@ export class Manager extends ManagerBase implements IWidgetManager {
     return new ClassicComm(model_id || "", comm);
   }
 
-  /* eslint @typescript-eslint/ban-types: "off" */
   protected _get_comm_info(): Promise<{}> {
     throw new Error("Method not implemented.");
   }
@@ -274,7 +272,6 @@ class ClassicComm implements IClassicComm {
     throw new Error("Method not implemented.");
   }
 
-  /* eslint @typescript-eslint/no-explicit-any: "off" */
   send(
     data: unknown,
     callbacks: any,
@@ -354,7 +351,6 @@ class ClassicComm implements IClassicComm {
     }
     (async () => {
       // Wait for all messages to complete.
-      /* eslint no-empty: "off", @typescript-eslint/no-unused-vars: "off" */
       for await (const message of this.comm.messages) {
       }
       callback(undefined);
