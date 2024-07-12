@@ -16,28 +16,13 @@
  */
 
 /**
- * The interface a custom widget manager ES6 module is expected to
- * implement.
- *
- * In plain code this means that the module would export a method such as:
- *
- * ```
- *    export function createWidgetManager(environment: WidgetEnvironment) {
- *       ...
- *    }
- * ```
+ * The interface a custom widget manager ES6 module is expected to implement.
  */
-export declare interface WidgetManagerModule {
-  createWidgetManager(
-    state: WidgetEnvironment,
-    arguments?: unknown,
-  ): IWidgetManager;
-}
 
 /**
  * The host API of the widget manager.
  */
-export declare interface WidgetEnvironment {
+export interface WidgetEnvironment {
   /**
    * @param modelId The ID of the model for which the model state is desired.
    */
@@ -59,13 +44,13 @@ export declare interface WidgetEnvironment {
     targetName: string,
     data?: unknown,
     buffers?: ArrayBuffer[],
-  ): Promise<IComm>;
+  ): Promise<Comm>;
 
   /** Renders a standard Jupyter output item into destination.  */
   renderOutput(outputItem: unknown, destination: Element): Promise<void>;
 }
 
-export declare interface IWidgetManager {
+export interface IWidgetManager {
   /**
    * Render the model specified by modelId into the container element.
    */
@@ -76,13 +61,13 @@ export declare interface IWidgetManager {
    */
   commChannelOpened?(
     id: string,
-    comm: IComm,
+    comm: Comm,
     data?: unknown,
     buffers?: ArrayBuffer[],
   ): void;
 }
 
-export declare interface ModelState {
+export interface ModelState {
   // Should these be here, or in the state object?
   // comm_open message passes it in the state:
   // https://github.com/jupyter-widgets/ipywidgets/blob/13fb8066c6a44fa57b8667de7959de6bd20f3bca/packages/base-manager/src/manager-base.ts#L205-L211
@@ -97,10 +82,10 @@ export declare interface ModelState {
    * If connected to a kernel then this is the comm channel to the kernel.
    * This will only be set if currently connected to a kernel.
    */
-  comm?: IComm;
+  comm?: Comm;
 }
 
-export declare interface IComm {
+export interface Comm {
   send(data: unknown, opts?: { buffers?: ArrayBuffer[] }): Promise<void>;
   close(): void;
 

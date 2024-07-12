@@ -19,13 +19,13 @@ import { Loader } from "./amd";
 import type {
   IWidgetManager,
   WidgetEnvironment,
-  IComm,
+  Comm,
   Message,
   ModelState,
 } from "./api";
 import { Manager } from "./manager";
 
-export type { IComm, WidgetEnvironment, Message, ModelState };
+export type { Comm, WidgetEnvironment, Message, ModelState };
 
 /**
  * Implementation of the WidgetManagerModule interface.

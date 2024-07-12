@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Loader } from "./amd";
-import { IComm, IWidgetManager, WidgetEnvironment } from "./api";
+import { Comm, IWidgetManager, WidgetEnvironment } from "./api";
 import * as outputs from "./outputs";
 import { swizzle } from "./swizzle";
 import {
@@ -229,7 +229,7 @@ export class Manager extends ManagerBase implements IWidgetManager {
 
   async commChannelOpened(
     id: string,
-    comm: IComm,
+    comm: Comm,
     data?: unknown,
     buffers?: ArrayBuffer[],
   ): Promise<void> {
@@ -263,7 +263,7 @@ function isES6Class(value: unknown): boolean {
 class ClassicComm implements IClassicComm {
   constructor(
     private readonly id: string,
-    private readonly comm: IComm,
+    private readonly comm: Comm,
   ) {}
   get target_name() {
     return "";
