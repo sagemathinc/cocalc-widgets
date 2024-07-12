@@ -24,7 +24,6 @@ export class Loader {
   private loadQueue = Promise.resolve();
 
   async load(moduleName: string, moduleVersion?: string): Promise<unknown> {
-    console.log("load", { moduleName, moduleVersion });
     let definition = this.definitions.get(moduleName);
     if (definition) {
       return this.loadModule(moduleName, definition);
@@ -155,9 +154,6 @@ function getHostedModuleUrl(moduleName: string, moduleVersion?: string): URL {
   if (version.startsWith("^")) {
     version = version.substr(1);
   }
-  console.log(
-    `https://cdn.jsdelivr.net/npm/${packageName}@${version}/${filename}`,
-  );
   return new URL(
     `https://cdn.jsdelivr.net/npm/${packageName}@${version}/${filename}`,
   );
