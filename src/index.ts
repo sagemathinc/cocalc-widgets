@@ -17,7 +17,7 @@
  */
 import { Loader } from "./amd";
 import type {
-  IWidgetManager,
+  WidgetManager,
   WidgetEnvironment,
   Comm,
   Message,
@@ -25,14 +25,14 @@ import type {
 } from "./api";
 import { Manager } from "./manager";
 
-export type { Comm, WidgetEnvironment, Message, ModelState };
+export type { Comm, Message, ModelState, WidgetEnvironment, WidgetManager };
 
 /**
  * Implementation of the WidgetManagerModule interface.
  */
 export function createWidgetManager(
   environment: WidgetEnvironment,
-): IWidgetManager {
+): WidgetManager {
   const loader = new Loader();
   return new Manager(environment, loader);
 }

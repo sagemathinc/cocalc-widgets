@@ -50,7 +50,7 @@ export interface WidgetEnvironment {
   renderOutput(outputItem: unknown, destination: Element): Promise<void>;
 }
 
-export interface IWidgetManager {
+export interface WidgetManager {
   /**
    * Render the model specified by modelId into the container element.
    */

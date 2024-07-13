@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Loader } from "./amd";
-import { Comm, IWidgetManager, WidgetEnvironment } from "./api";
+import { Comm, WidgetManager, WidgetEnvironment } from "./api";
 import * as outputs from "./outputs";
 import { swizzle } from "./swizzle";
 import {
@@ -38,7 +38,7 @@ import { Widget } from "@lumino/widgets";
 
 export type { WidgetEnvironment };
 
-export class Manager extends ManagerBase implements IWidgetManager {
+export class Manager extends ManagerBase implements WidgetManager {
   private readonly models = new Map<string, Promise<WidgetModel>>();
   private readonly loader: Loader;
 
