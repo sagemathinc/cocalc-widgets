@@ -30,8 +30,8 @@ importers:
         specifier: ^2.4.0
         version: 2.4.0
       '@types/backbone':
-        specifier: ^1.4.19
-        version: 1.4.19
+        specifier: ^1.4.14
+        version: 1.4.14
       '@types/node':
         specifier: ^20.14.10
         version: 20.14.10
@@ -39,8 +39,8 @@ importers:
         specifier: ^1.11.15
         version: 1.11.15
       backbone:
-        specifier: 1.6.0
-        version: 1.6.0
+        specifier: 1.4.0
+        version: 1.4.0
       esbuild:
         specifier: ^0.11.23
         version: 0.11.23
@@ -209,9 +209,6 @@ packages:
   '@types/backbone@1.4.14':
     resolution: {integrity: sha512-85ldQ99fiYTJFBlZuAJRaCdvTZKZ2p1fSs3fVf+6Ub6k1X0g0hNJ0qJ/2FOByyyAQYLtbEz3shX5taKQfBKBDw==}
 
-  '@types/backbone@1.4.19':
-    resolution: {integrity: sha512-byyn236JymGByOajKA7mi1k+/jKn162TIvArOB4SHgOGbVlFj8CSfJH4jekP0qo0vJwW5khrrsiiO1Jsos6ZvA==}
-
   '@types/jquery@3.5.30':
     resolution: {integrity: sha512-nbWKkkyb919DOUxjmRVk8vwtDb0/k8FKncmUKFi+NY+QXqWltooxTrswvz4LspQwxvLdvzBN1TImr6cw3aQx2A==}
 
@@ -251,9 +248,6 @@ packages:
 
   backbone@1.4.0:
     resolution: {integrity: sha512-RLmDrRXkVdouTg38jcgHhyQ/2zjg7a8E6sz2zxfz21Hh17xDJYUHBZimVIt5fUyS8vbfpeSmTL3gUjTEvUV3qQ==}
-
-  backbone@1.6.0:
-    resolution: {integrity: sha512-13PUjmsgw/49EowNcQvfG4gmczz1ximTMhUktj0Jfrjth0MVaTxehpU+qYYX4MxnuIuhmvBLC6/ayxuAGnOhbA==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -980,11 +974,6 @@ snapshots:
       '@types/jquery': 3.5.30
       '@types/underscore': 1.11.15
 
-  '@types/backbone@1.4.19':
-    dependencies:
-      '@types/jquery': 3.5.30
-      '@types/underscore': 1.11.15
-
   '@types/jquery@3.5.30':
     dependencies:
       '@types/sizzle': 2.3.8
@@ -1024,10 +1013,6 @@ snapshots:
   ansi-styles@6.2.1: {}
 
   backbone@1.4.0:
-    dependencies:
-      underscore: 1.13.6
-
-  backbone@1.6.0:
     dependencies:
       underscore: 1.13.6
 
