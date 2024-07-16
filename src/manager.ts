@@ -223,6 +223,67 @@ export class Manager extends ManagerBase implements WidgetManager {
     container.appendChild(lifecycleAdapter);
   }
 
+  // TODO: this is here for now because the code to make the ErrorWidget
+  // in the base class (upstream) just
+  // doesn't work for me, but I still need to see the error. This is copied
+  // from the ipywidgets source code, with the only real changes:
+  // (1) adding "e" to then console error message, AND
+  // (2) changing the constructor call for ModelCls to have empty args.
+  // This *might* be a bug in the latest upstream, which would be weird.
+  // In any case, for now this workaround seems to work perfectly.
+  create_view(model: any, options = {}) {
+    const id = base.uuid();
+    const viewPromise = (model.state_change = model.state_change.then(
+      async () => {
+        const _view_name = model.get("_view_name");
+        const _view_module = model.get("_view_module");
+        try {
+          const ViewType = (await this.loadViewClass(
+            _view_name,
+            _view_module,
+            model.get("_view_module_version"),
+          )) as typeof DOMWidgetView;
+          const view = new ViewType({
+            model: model,
+            options: this.setViewOptions(options),
+          });
+          view.listenTo(model, "destroy", view.remove);
+          await view.render();
+
+          // This presumes the view is added to the list of model views below
+          view.once("remove", () => {
+            if (model.views) {
+              delete model.views[id];
+            }
+          });
+
+          return view;
+        } catch (e) {
+          // the code below for making the error widget weirdly doesn't work,
+          // which makes it impossible to know what e is!
+          console.error(
+            `Could not create a view for model id ${model.model_id}`,
+            e,
+          );
+          const msg = `Failed to create view for '${_view_name}' from module '${_view_module}' with model '${model.name}' from module '${model.module}'`;
+          const ModelCls = base.createErrorWidgetModel(e as any, msg);
+          const errorModel = new ModelCls({}, {});
+          const view = new base.ErrorWidgetView({
+            model: errorModel,
+            options: this.setViewOptions(options),
+          });
+          await view.render();
+
+          return view;
+        }
+      },
+    ));
+    if (model.views) {
+      model.views[id] = viewPromise;
+    }
+    return viewPromise;
+  }
+
   renderOutput(outputItem: unknown, destination: Element): Promise<void> {
     return this.environment.renderOutput(outputItem, destination);
   }
