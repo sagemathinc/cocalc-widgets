@@ -26,6 +26,7 @@ import {
   remove_buffers,
   put_buffers,
   Dict,
+  unpack_models,
 } from "@jupyter-widgets/base";
 import type { BufferJSON } from "./utils";
 import * as base from "@jupyter-widgets/base";
@@ -471,6 +472,10 @@ function dispatchLuminoMessage(widget: Widget, message: Message) {
   if (phosphorWidget._view?.processPhosphorMessage) {
     phosphorWidget._view.processPhosphorMessage(message);
   }
+}
+
+export function is_unpack_models(f: Function) {
+  return f == unpack_models;
 }
 
 declare interface MaybePhosphorWidget {

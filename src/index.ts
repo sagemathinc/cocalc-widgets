@@ -23,9 +23,11 @@ import type {
   Message,
   ModelState,
 } from "./api";
-import { Manager } from "./manager";
+import { Manager, is_unpack_models } from "./manager";
 
 export type { Comm, Message, ModelState, WidgetEnvironment, WidgetManager };
+
+export { is_unpack_models };
 
 /**
  * Implementation of the WidgetManagerModule interface.
