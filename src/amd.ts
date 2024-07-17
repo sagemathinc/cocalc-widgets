@@ -154,6 +154,8 @@ function getHostedModuleUrl(moduleName: string, moduleVersion?: string): URL {
   if (version.startsWith("^")) {
     version = version.substr(1);
   }
+  // Why this CDN? See https://ipywidgets.readthedocs.io/en/latest/embedding.html#the-case-of-custom-widget-libraries
+  // as this is the default recommended CDN in the ipywidgets community.
   return new URL(
     `https://cdn.jsdelivr.net/npm/${packageName}@${version}/${filename}`,
   );
