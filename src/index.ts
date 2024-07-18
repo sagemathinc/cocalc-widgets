@@ -16,22 +16,21 @@
  * limitations under the License.
  */
 import { Loader } from "./amd";
-import type {
-  WidgetManager,
-  WidgetEnvironment,
-  ModelState,
-} from "./api";
+import type { WidgetManager, WidgetEnvironment, ModelState } from "./api";
 import { Manager, is_unpack_models } from "./manager";
-import type { IClassicComm } from "@jupyter-widgets/base";
-
+import type { IClassicComm, ICallbacks } from "@jupyter-widgets/base";
 export type {
   IClassicComm,
+  ICallbacks,
   ModelState,
   WidgetEnvironment,
   WidgetManager,
 };
 
 export { is_unpack_models };
+
+import type { JSONValue, JSONObject } from "@lumino/coreutils";
+export type { JSONValue, JSONObject };
 
 /**
  * Implementation of the WidgetManagerModule interface.
