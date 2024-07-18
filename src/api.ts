@@ -1,5 +1,6 @@
 /**
  * @license
+ * Copyright 2024 SageMath Inc
  * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import type { IClassicComm } from "@jupyter-widgets/base";
 
 /**
  * The interface a custom widget manager ES6 module is expected to implement.
@@ -35,16 +38,19 @@ export interface WidgetEnvironment {
    * at
    * https://jupyter-notebook.readthedocs.io/en/stable/comms.html#opening-a-comm-from-the-frontend.
    *
-   * @param targetName The name of the channel registered on the kernel.
-   * @param data Any data to be sent with the open message.
-   * @param buffers Any binary data to be sent with the open message.
    * @return The established comm channel.
    */
-  openCommChannel(
-    targetName: string,
-    data?: unknown,
-    buffers?: ArrayBuffer[],
-  ): Promise<Comm>;
+  openCommChannel(opts: {
+    // The name of the channel registered on the kernel.
+    target_name: string;
+    // The id of the comm (this is the model_id)
+    comm_id: string;
+    // Any data to be sent with the open message.
+    data?: unknown;
+    metadata?: unknown;
+    // Any binary data to be sent with the open message.
+    buffers?: ArrayBuffer[];
+  }): Promise<IClassicComm>;
 
   /** Renders a standard Jupyter output item into destination.  */
   renderOutput(outputItem: unknown, destination: Element): Promise<void>;
@@ -55,51 +61,12 @@ export interface WidgetManager {
    * Render the model specified by modelId into the container element.
    */
   render(modelId: string, container: Element): Promise<void>;
-
-  /**
-   * Invoked when a comm channel has been opened.
-   */
-  commChannelOpened?(
-    id: string,
-    comm: Comm,
-    data?: unknown,
-    buffers?: ArrayBuffer[],
-  ): void;
 }
 
 export interface ModelState {
-  // Should these be here, or in the state object?
-  // comm_open message passes it in the state:
-  // https://github.com/jupyter-widgets/ipywidgets/blob/13fb8066c6a44fa57b8667de7959de6bd20f3bca/packages/base-manager/src/manager-base.ts#L205-L211
-  // But the ipynb serialization pulls them above the general state params:
-  // https://github.com/jupyter-widgets/ipywidgets/blob/13fb8066c6a44fa57b8667de7959de6bd20f3bca/packages/schema/v2/state.schema.json#L24-L34
   modelName: string;
   modelModule: string;
   modelModuleVersion: string;
 
   state: { [key: string]: unknown };
-  /**
-   * If connected to a kernel then this is the comm channel to the kernel.
-   * This will only be set if currently connected to a kernel.
-   */
-  comm?: Comm;
-}
-
-export interface Comm {
-  send(data: unknown, opts?: { buffers?: ArrayBuffer[] }): Promise<void>;
-  close(): void;
-
-  /**
-   * An async iterator of the incoming messages from the kernel.
-   * The iterator will end when the comm channel is closed.
-   */
-  readonly messages: AsyncIterable<Message>;
-}
-
-/** A single Comm message. */
-export interface Message {
-  /** The JSON structured data of the message. */
-  readonly data: unknown;
-  /** Optional binary buffers transferred with the message. */
-  readonly buffers?: ArrayBuffer[];
 }

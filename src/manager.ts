@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Loader } from "./amd";
-import { Comm, WidgetManager, WidgetEnvironment } from "./api";
+import { WidgetManager, WidgetEnvironment } from "./api";
 import * as outputs from "./outputs";
 import { swizzle } from "./swizzle";
 import {
@@ -152,13 +152,13 @@ export class Manager extends ManagerBase implements WidgetManager {
       }
       return buffer;
     });
-
-    const comm = await this.environment.openCommChannel(
-      comm_target_name,
+    return await this.environment.openCommChannel({
+      target_name: comm_target_name,
+      comm_id: model_id ?? "",
       data,
-      sendBuffers,
-    );
-    return new ClassicComm(model_id || "", comm);
+      metadata,
+      buffers: sendBuffers,
+    });
   }
 
   protected _get_comm_info(): Promise<{}> {
@@ -185,17 +185,12 @@ export class Manager extends ManagerBase implements WidgetManager {
         serializedState.buffers,
       );
 
-      let comm = undefined;
-      if (state.comm) {
-        comm = new ClassicComm(modelId, state.comm);
-      }
       const model = await this.new_model(
         {
           model_name: state.modelName,
           model_module: state.modelModule,
           model_module_version: state.modelModuleVersion,
           model_id: modelId,
-          comm,
         },
         state.state,
       );
@@ -288,147 +283,10 @@ export class Manager extends ManagerBase implements WidgetManager {
   renderOutput(outputItem: unknown, destination: Element): Promise<void> {
     return this.environment.renderOutput(outputItem, destination);
   }
-
-  async commChannelOpened(
-    id: string,
-    comm: Comm,
-    data?: unknown,
-    buffers?: ArrayBuffer[],
-  ): Promise<void> {
-    if (!data) {
-      return;
-    }
-    const classicComm = new ClassicComm(id, comm);
-    if (this.models.has(id)) {
-      // This model has already been created, skip calling handle_com_open which
-      // would re-create it.
-      return;
-    }
-    await this.handle_comm_open(classicComm, {
-      header: {} as services.KernelMessage.IHeader<"comm_open">,
-      metadata: { version: base.PROTOCOL_VERSION },
-      parent_header: {},
-      channel: "iopub",
-      content: {
-        comm_id: id,
-        target_name: "jupyter.widget",
-        data: data as JSONObject,
-      },
-    });
-  }
 }
 
 function isES6Class(value: unknown): boolean {
   return typeof value === "function" && value.toString().startsWith("class ");
-}
-
-class ClassicComm implements IClassicComm {
-  constructor(
-    private readonly id: string,
-    private readonly comm: Comm,
-  ) {}
-  get target_name() {
-    return "";
-  }
-
-  open(
-    data: any,
-    callbacks: any,
-    metadata?: any,
-    buffers?: ArrayBuffer[] | ArrayBufferView[],
-  ): string {
-    // Comm channels should be opened through Manager._create_comm.
-    throw new Error("Method not implemented.");
-  }
-
-  send(
-    data: unknown,
-    callbacks: any,
-    metadata?: unknown,
-    buffers?: ArrayBuffer[] | ArrayBufferView[],
-  ): string {
-    let opts = undefined;
-    if (buffers) {
-      const sendBuffers = buffers.map((buffer) => {
-        if (ArrayBuffer.isView(buffer)) {
-          return new Uint8Array(
-            buffer.buffer,
-            buffer.byteOffset,
-            buffer.byteLength,
-          );
-        }
-        return buffer;
-      });
-      opts = { buffers: sendBuffers };
-    }
-    // Round-trip through JSON to drop non-transferrable properties. These will
-    // throw errors when sent via a message channel, vs JSON.stringify which
-    // will just skip.
-    data = JSON.parse(JSON.stringify(data));
-    this.comm.send(data, opts).then(() => {
-      if (callbacks && callbacks.iopub && callbacks.iopub.status) {
-        callbacks.iopub.status({
-          content: {
-            execution_state: "idle",
-          },
-        });
-      }
-    });
-    return "";
-  }
-  close(
-    data?: unknown,
-    callbacks?: unknown,
-    metadata?: unknown,
-    buffers?: ArrayBuffer[] | ArrayBufferView[],
-  ): string {
-    // Currently does not support data in the close.
-    this.comm.close();
-    return "";
-  }
-
-  on_msg(callback: (x: unknown) => void) {
-    (async () => {
-      if (!this.comm) {
-        return;
-      }
-      for await (const message of this.comm.messages) {
-        let buffers: Uint8Array[] = [];
-        if (message.buffers) {
-          // The comm callback is typed as ArrayBuffer|ArrayBufferView but
-          // some code (pythreejs) require ArrayBufferViews.
-          buffers = message.buffers.map((b) => new Uint8Array(b));
-        }
-        try {
-          callback({
-            content: {
-              comm_id: this.id,
-              data: message.data,
-            },
-            buffers: buffers,
-          });
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    })();
-  }
-
-  on_close(callback: (x: unknown) => void): void {
-    if (!this.comm) {
-      return;
-    }
-    (async () => {
-      // Wait for all messages to complete.
-      for await (const message of this.comm.messages) {
-      }
-      callback(undefined);
-    })();
-  }
-
-  get comm_id() {
-    return this.id;
-  }
 }
 
 /**

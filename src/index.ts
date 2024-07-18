@@ -19,13 +19,17 @@ import { Loader } from "./amd";
 import type {
   WidgetManager,
   WidgetEnvironment,
-  Comm,
-  Message,
   ModelState,
 } from "./api";
 import { Manager, is_unpack_models } from "./manager";
+import type { IClassicComm } from "@jupyter-widgets/base";
 
-export type { Comm, Message, ModelState, WidgetEnvironment, WidgetManager };
+export type {
+  IClassicComm,
+  ModelState,
+  WidgetEnvironment,
+  WidgetManager,
+};
 
 export { is_unpack_models };
 
