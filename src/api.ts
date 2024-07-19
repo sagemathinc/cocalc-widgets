@@ -27,9 +27,9 @@ import type { IClassicComm } from "@jupyter-widgets/base";
  */
 export interface WidgetEnvironment {
   /**
-   * @param modelId The ID of the model for which the model state is desired.
+   * @param modelId The ID of the model for which the serialized model state is desired.
    */
-  getModelState(modelId: string): Promise<ModelState | undefined>;
+  getSerializedModelState(modelId: string): Promise<ModelState | undefined>;
 
   /**
    * Open a new comm channel to the kernel.

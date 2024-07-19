@@ -173,25 +173,29 @@ export class Manager extends ManagerBase implements WidgetManager {
     throw new Error("Method not implemented.");
   }
 
+  normalizeBuffers = (state: BufferJSON) => {
+    // Round-trip the state through Jupyter's remove_buffers/put_buffers to
+    // normalize the buffer format.
+    const serializedState = remove_buffers(state);
+    put_buffers(
+      state as Dict<BufferJSON>,
+      serializedState.buffer_paths,
+      serializedState.buffers,
+    );
+  };
+
   async get_model(modelId: string): Promise<WidgetModel> {
     let modelPromise = this.models.get(modelId);
     if (modelPromise) {
       return modelPromise;
     }
     modelPromise = (async () => {
-      const state = await this.environment.getModelState(modelId);
+      const state = await this.environment.getSerializedModelState(modelId);
       if (!state) {
         throw new Error("not found");
       }
 
-      // Round-trip the state through Jupyter's remove_buffers/put_buffers to
-      // normalize the buffer format.
-      const serializedState = remove_buffers(state.state as BufferJSON);
-      put_buffers(
-        state.state as Dict<BufferJSON>,
-        serializedState.buffer_paths,
-        serializedState.buffers,
-      );
+      this.normalizeBuffers(state.state as BufferJSON);
 
       const model = await this.new_model(
         {
