@@ -52,8 +52,15 @@ export interface WidgetEnvironment {
     buffers?: ArrayBuffer[];
   }): Promise<IClassicComm>;
 
-  /** Renders a standard Jupyter output item into destination.  */
+  // Renders a standard Jupyter output item into destination.
   renderOutput(outputItem: unknown, destination: Element): Promise<void>;
+
+  // return a class to use that; return null to fallback to what is builtin or the cdn.
+  loadClass(
+    className: string,
+    moduleName: string,
+    moduleVersion: string,
+  ): Promise<any>;
 }
 
 export interface WidgetManager {

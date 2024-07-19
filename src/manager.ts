@@ -129,6 +129,14 @@ export class Manager extends ManagerBase implements WidgetManager {
     moduleName: string,
     moduleVersion: string,
   ): Promise<typeof WidgetModel | typeof WidgetView> {
+    const cls = await this.environment.loadClass?.(
+      className,
+      moduleName,
+      moduleVersion,
+    );
+    if (cls != null) {
+      return cls;
+    }
     const exports = await this.loader.load(moduleName, moduleVersion);
     return (
       exports as { [key: string]: typeof WidgetModel | typeof WidgetView }
