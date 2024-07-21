@@ -357,7 +357,7 @@ declare interface MaybePhosphorView {
 }
 
 try {
-  window.customElements.define("colab-lumino-adapter", LuminoLifecycleAdapter);
+  window.customElements.define("cocalc-lumino-adapter", LuminoLifecycleAdapter);
 } catch (error: unknown) {
   // May have already been defined.
 }
