@@ -17,16 +17,16 @@
 const esbuild = require("esbuild");
 
 (async () => {
+  //   await esbuild.build({
+  //     entryPoints: ["src/index.ts"],
+  //     bundle: true,
+  //     outfile: "dist/index.dev.js",
+  //     format: "esm",
+  //   });
   await esbuild.build({
     entryPoints: ["src/index.ts"],
     bundle: true,
-    outfile: "dist/manager.dev.js",
-    format: "esm",
-  });
-  await esbuild.build({
-    entryPoints: ["src/index.ts"],
-    bundle: true,
-    outfile: "dist/manager.min.js",
+    outfile: "dist/index.min.js",
     format: "esm",
     minify: true,
   });

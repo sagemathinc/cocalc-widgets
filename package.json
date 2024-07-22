@@ -1,12 +1,10 @@
 {
   "name": "@cocalc/widgets",
-  "version": "1.1.4",
-  "description": "Jupyter interactive widgets for CoCalc",
+  "version": "1.2.0",
+  "description": "Jupyter Interactive Widgets for CoCalc",
   "license": "Apache-2.0",
-  "files": [
-    "dist/"
-  ],
-  "main": "./dist/manager.dev.js",
+  "files": ["dist/"],
+  "main": "./dist/index.min.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
@@ -39,9 +37,7 @@
     "url": "https://github.com/sagemathinc/cocalc-widgets"
   },
   "author": "SageMath, Inc.",
-  "contributors": [
-    "William Stein <wstein@sagemath.com>"
-  ],
+  "contributors": ["William Stein <wstein@sagemath.com>"],
   "bugs": {
     "url": "https://github.com/sagemathinc/cocalc-widgets/issues"
   }
