@@ -197,12 +197,20 @@ export class Manager extends ManagerBase implements WidgetManager {
 
       this.normalizeBuffers(state.state as BufferJSON);
 
+      // Setup the comm *before* the model exists, so initialization of the model can use the comm.
+      // This is critical to get ipympl to work properly!!  E.g.
+      //     %matplotlib widget
+      //     from pylab import plot; plot([1,2,7], [2,4,100])
+
+      const comm = await this.environment.openCommChannel({comm_id: modelId, target_name: "jupyter.widget"});
+
       const model = await this.new_model(
         {
           model_name: state.modelName,
           model_module: state.modelModule,
           model_module_version: state.modelModuleVersion,
           model_id: modelId,
+          comm,
         },
         state.state,
       );
